@@ -13,15 +13,23 @@ import java.io.*;
  */
 public class SockServer {
   public static void main (String args[]) {
-    Socket sock;
+    
+	int argPort = 0;
+	try {
+	  argPort = Integer.parseInt(args[0]);
+	} catch (Exception e) {
+	  System.out.println("Argument[0]: " + args[0] + " specifies the port and must be an integer");
+	  System.exit(1);
+	}
+	Socket sock;
     try {
       //open socket
-      ServerSocket serv = new ServerSocket(8888); // create server socket on port 8888
+      ServerSocket serv = new ServerSocket(argPort); // create server socket on port 8888
       System.out.println("Server ready for 3 connections");
       // only does three connections then closes
       // NOTE: SINGLE-THREADED, only one connection at a time
       for (int rep = 0; rep < 3; rep++){
-        System.out.println("Server waiting for a connection");
+        System.out.println("Server waiting for a connection on port "+argPort);
         sock = serv.accept(); // blocking wait
         // setup the object reading channel
         ObjectInputStream in = new ObjectInputStream(sock.getInputStream());
